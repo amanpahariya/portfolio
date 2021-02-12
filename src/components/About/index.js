@@ -6,7 +6,7 @@ import './index.css'
 function About() {
     return (
         <>
-            <div className="topContainer">
+            <div id="about-section" className="topContainer">
                 <div className="about">
                     <img src={image} />
                 </div>
