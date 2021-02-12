@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './index.scss';
+import './index.css';
 import { FaBars } from 'react-icons/fa';
 import { RiCloseFill } from 'react-icons/ri';
 
