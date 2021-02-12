@@ -1,6 +1,7 @@
 import React from 'react';
 import { IoMdSchool } from 'react-icons/io';
 import { CgOrganisation } from 'react-icons/cg';
+import { FaAward } from 'react-icons/fa'
 import './index.css'
 function Resume() {
     return (
@@ -48,30 +49,27 @@ function Resume() {
                     </div>
                 </div>
             </div>
-            <div>
-                <div className="resumeContainer">
-                    <div className="resume-title">
-                        <h1>Experience</h1>
-                    </div>
-                    <div className="resume-info">
-                        <div>
-                            <div className="resume-icon">
-                                <CgOrganisation size={30} />
-                            </div>
-                            <div>
-                                <span>2017-Present</span>
-                                <h2>Business Devlopment Executive</h2>
-                                <h4>BestPeers InfoSystem Pvt.Ltd</h4>
-                                <p className="description">
-                                    I am a Business Development Excutive at BestPeers
-                                    InfoSystem Pvt.Ltd having 2.5 year of experience
-                                     in generating new business through email marketing</p>
-                            </div>
-
+            <div className="resumeContainer">
+                <div className="resume-title">
+                    <h1>Experience</h1>
+                </div>
+                <div className="resume-info">
+                    <div>
+                        <div className="resume-icon">
+                            <CgOrganisation size={30} />
                         </div>
+                        <div>
+                            <span>2017-Present</span>
+                            <h2>Business Devlopment Executive</h2>
+                            <h4>BestPeers InfoSystem Pvt.Ltd</h4>
+                            <p className="description">
+                                I am a Business Development Excutive at BestPeers
+                                InfoSystem Pvt.Ltd having 2.5 year of experience
+                                     in generating new business through email marketing</p>
+                        </div>
+
                     </div>
                 </div>
-
             </div>
             <div className="resumeContainer">
                 <div className="resume-title">
@@ -86,6 +84,24 @@ function Resume() {
                             <li><p>Complete knowledge of all aspects of the sales cycle. </p></li>
                             <li><p>I Used Technologies For Bidding: Ruby on Rails, Django/Python, React/Redux, Angular.JS, Node.JS, Javascript/jQuery, Javascript, UI-UX, e-commerce, Fullstack, MEAN Stack, Frontend, Backend etc.. </p></li>
                         </ul>
+                    </div>
+                </div>
+            </div>
+            <div className="resumeContainer">
+                <div className="resume-title">
+                    <h1>Awards</h1>
+                </div>
+                <div className="resume-info">
+                    <div>
+                        <div className="resume-icon">
+                            <FaAward size={30} />
+                        </div>
+                        <div>
+                            <span>2018</span>
+                            <h2>Exellence Performance</h2>
+                            <h4>BestPeers InfoSystem Pvt.Ltd</h4>
+                        </div>
+
                     </div>
                 </div>
             </div>
