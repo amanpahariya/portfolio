@@ -23,10 +23,11 @@
 
 .contact-cards .inner-card {
     padding: 0 10px;
+    height: 100%;
 }
 
 .inner-card>div {
-    background-color: #f8b257;
+    background-color: #f3c062;
     padding: 10px;
     box-shadow: 0 0 10px 0px #fff;
 }
@@ -46,6 +47,7 @@
 @media(max-width:1000px) {
     .contact-cards {
         width: 350px;
+        margin: 30px 0;
     }
 }
 
@@ -57,6 +59,12 @@
 
 @media(max-width:470px) {
     .contact-cards {
-        width: auto;
+        width: 100%;
+    }
+    .contact-title{
+        font-size: 20px;
+    }
+    .cards-container{
+        margin: 50px 0;
     }
 }

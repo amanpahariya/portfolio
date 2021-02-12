@@ -15,7 +15,7 @@ function About() {
                     <ul className="about-info">
                         <li><span>Name:</span> <span>Shainki Gupta</span></li>
                         <li><span>Date of birth:</span> <span>August 15, 1997</span></li>
-                        <li><span>Address:</span> <span>Near KhatuShyam Mandir, C-21 Mall, MR-9, Indore(M.P).</span></li>
+                        <li><span>Address:</span> <span>Near KhatuShyam Mandir,&nbsp; C-21 Mall, MR-9, Indore(M.P).</span></li>
                         <li><span>Email:</span> <span>shanki000gupta@gmail.com</span></li>
                         <li><span>Phone: </span> <span>+91-7828072833, 9340874488 </span></li>
                     </ul>
