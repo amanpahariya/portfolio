@@ -6,7 +6,7 @@ import { RiSendPlaneFill } from 'react-icons/ri'
 import './index.css'
 function ContactUs() {
     return (
-        <div id="contact-us-section" className="contactContainer">
+        <div className="contactContainer">
             <div className="contact-title">
                 <h1>Contact Me</h1>
             </div>

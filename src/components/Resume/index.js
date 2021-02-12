@@ -5,7 +5,7 @@ import { FaAward } from 'react-icons/fa'
 import './index.css'
 function Resume() {
     return (
-        <div id="resume-section">
+        <div>
             <div className="resumeContainer">
                 <div className="resume-title">
                     <h1>Education</h1>

@@ -1,20 +1,8 @@
-
-
 .nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px 50px;
-}
-.nav-scroll{
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: #282c34;
-    justify-content: space-around;
-    padding: 0 !important; 
-    z-index: 99;
-    box-shadow: 0 0 10px 1px #c0c0c0; 
 }
 
 .navbar-brand {
@@ -53,7 +41,7 @@
         position: relative;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%,-50%);
     }
     .nav-link {
         margin: 20px 0 !important;
@@ -68,7 +56,7 @@
     }
     .nav-menu-1 {
         display: block !important;
-        position: fixed;
+        position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
