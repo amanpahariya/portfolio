@@ -10,7 +10,6 @@ function Navbar() {
     const [toggle, setToggle] = useState(false);
 
     const onclick = () => {
-        console.log('aman');
         setToggle(!toggle);
     }
 
@@ -27,16 +26,16 @@ function Navbar() {
             <div className={toggle ? "none nav-menu-1" : "none"}>
                 <ul className="nav-menu">
                     <li className="nav-link">
-                        <Link to="/" style={{ color: ' #fff', textDecoration: "none" }}>Home</Link>
+                        <Link to="/" style={{ color: ' #fff', textDecoration: "none" }} onClick={onclick}>Home</Link>
                     </li>
                     <li className="nav-link" >
-                        <Link to="/about" style={{ color: ' #fff', textDecoration: "none" }}>About</Link>
+                        <Link to="/about" style={{ color: ' #fff', textDecoration: "none" }} onClick={onclick}>About</Link>
                     </li>
                     <li className="nav-link">
-                        <Link to="/resume" style={{ color: ' #fff', textDecoration: "none" }}>Resume</Link>
+                        <Link to="/resume" style={{ color: ' #fff', textDecoration: "none" }} onClick={onclick}>Resume</Link>
                     </li>
                     <li className="nav-link" >
-                        <Link to="/contact-us" style={{ color: ' #fff', textDecoration: "none" }}>Contact Us</Link>
+                        <Link to="/contact-us" style={{ color: ' #fff', textDecoration: "none" }} onClick={onclick}>Contact Us</Link>
                     </li>
                 </ul>
             </div>

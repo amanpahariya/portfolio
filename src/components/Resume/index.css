@@ -1,0 +1,25 @@
+/* .educationContainer{
+    width: fit-content
+} */
+
+.resume-title{
+    text-align: center;
+}
+.resume-info{
+    text-align: center;
+}
+.resume-icon :first-child{
+ background-color: #037ce6;   
+ border-radius: 50%;
+ padding: 10px;
+ margin-bottom: 10px;
+}
+.description{
+    max-width: 600px;
+    margin: 0 auto;
+}
+.skills{
+    text-align: justify;
+    max-width: 600px;
+    margin: 0 auto;
+}
