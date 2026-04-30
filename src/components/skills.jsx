@@ -29,7 +29,7 @@ const Skills = () => {
         { name: 'Node.js', icon: '🟢', level: 80, color: 'from-green-400 to-green-600' },
         { name: 'Express.js', icon: '🚀', level: 85, color: 'from-gray-500 to-gray-700' },
         { name: 'MongoDB', icon: '🍃', level: 75, color: 'from-green-500 to-green-700' },
-        { name: 'GraphQL', icon: '◈', level: 75, color: 'from-pink-400 to-purple-500' }
+        { name: 'Python', icon: '🐍', level: 75, color: 'from-yellow-400 to-blue-500' }
       ]
     },
     {
@@ -40,6 +40,16 @@ const Skills = () => {
         { name: 'Docker', icon: '🐳', level: 80, color: 'from-blue-500 to-blue-700' },
         { name: 'Git', icon: '🌱', level: 90, color: 'from-red-400 to-red-600' },
         { name: 'Linux', icon: '🐧', level: 75, color: 'from-yellow-400 to-orange-500' }
+      ]
+    },
+    {
+      title: "AI & Automation",
+      icon: "🤖",
+      skills: [
+        { name: 'LangChain', icon: '🔗', level: 70, color: 'from-green-400 to-emerald-600' },
+        { name: 'LangGraph', icon: '🕸️', level: 65, color: 'from-purple-400 to-violet-600' },
+        { name: 'n8n', icon: '⚡', level: 75, color: 'from-orange-400 to-red-500' },
+        { name: 'Make.com', icon: '🔄', level: 75, color: 'from-violet-400 to-purple-600' }
       ]
     }
   ];
@@ -70,7 +80,7 @@ const Skills = () => {
           </h2>
         </motion.div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {skillCategories.map((category, categoryIndex) => (
             <motion.div
               key={category.title}

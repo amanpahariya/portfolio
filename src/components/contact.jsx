@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { PaperAirplaneIcon, MapPinIcon, PhoneIcon } from "@heroicons/react/24/outline";
+import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import HeroInfo from "@/utility/hero.json";
 
 const Contact = () => {
@@ -106,6 +106,33 @@ const Contact = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
+              {/* Profile Card */}
+              <div className="flex items-center space-x-4 mb-8 pb-6 border-b border-white/10">
+                <motion.div
+                  className="relative w-16 h-16 flex-shrink-0"
+                  whileHover={{ scale: 1.1 }}
+                >
+                  <div className="w-full h-full rounded-full bg-gradient-to-br from-blue-500 to-violet-500 p-0.5">
+                    <motion.img
+                      src={HeroInfo.aboutMeImage}
+                      alt={HeroInfo.name}
+                      className="w-full h-full rounded-full object-cover"
+                    />
+                  </div>
+                  <motion.div
+                    className="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-500/30 to-violet-500/30 blur-sm -z-10"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                  />
+                  <span className="absolute bottom-0 right-0 w-4 h-4 bg-green-400 rounded-full border-2 border-[#0d1117]" />
+                </motion.div>
+                <div>
+                  <h4 className="text-white font-bold text-lg">{HeroInfo.name}</h4>
+                  <p className="text-blue-400 text-sm">{HeroInfo.title}</p>
+                  <p className="text-gray-400 text-xs">Available for work</p>
+                </div>
+              </div>
+
               <h3 className="text-2xl font-bold text-white mb-6">Get In Touch</h3>
               <p className="text-gray-300 mb-8 leading-relaxed">
                 I&apos;m always interested in new opportunities and exciting projects. 

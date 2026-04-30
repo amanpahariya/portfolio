@@ -96,7 +96,7 @@ export default function RootLayout({ children }) {
     },
     "worksFor": {
       "@type": "Organization",
-      "name": "Current Company"
+      "name": "Tata Consulting Services"
     },
     "sameAs": [
       HeroInfo.githubUrl,

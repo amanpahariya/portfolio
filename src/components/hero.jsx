@@ -3,6 +3,7 @@ import { motion, useTransform, useScroll, useSpring } from "framer-motion";
 import Link from "next/link";
 
 import HeroInfo from "@/utility/hero.json";
+import TypingAnimation from "@/components/typing-animation";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -59,12 +60,20 @@ const Hero = () => {
             </motion.div>
 
             <motion.h2
-              className="text-2xl md:text-3xl font-semibold text-gray-300"
+              className="text-2xl md:text-3xl font-semibold"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              {HeroInfo.title}
+              <TypingAnimation
+                texts={[
+                  "Software Engineer",
+                  "Full Stack Developer",
+                  "AI & Automation Builder",
+                  "Problem Solver"
+                ]}
+                className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-violet-400"
+              />
             </motion.h2>
 
             <motion.p

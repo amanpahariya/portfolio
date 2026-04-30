@@ -6,23 +6,44 @@
   "seoTitle": "Software Engineer & Full Stack Developer",
   "seoDescription": "Software Engineer with 4+ years of experience building scalable web applications. Specializing in React.js, Node.js, MongoDB, and AWS cloud solutions.",
   "seoShortDescription": "Building scalable web applications with modern technologies",
-  "seoKeywords": "Software Engineer, Full Stack Developer, React.js, Node.js, MongoDB, JavaScript, TypeScript, Next.js, Express.js, Web Development, ERP Systems, CRM Development, Frontend Developer, Backend Developer, Portfolio",
+  "seoKeywords": "Software Engineer, Full Stack Developer, React.js, Node.js, MongoDB, JavaScript, TypeScript, Next.js, Express.js, Python, LangChain, LangGraph, n8n, Make.com, AI Automation, Web Development, ERP Systems, CRM Development, Frontend Developer, Backend Developer, Portfolio",
   "githubUrl": "https://github.com/amanpahariya",
   "linkedinUrl": "https://www.linkedin.com/in/amanguptag",
   "experience": [
     {
       "title": "Software Engineer",
-      "company": "Current Company",
-      "period": "Apr 2023 - Present",
-      "description": "Building scalable web applications and ERP systems using modern technologies",
-      "achievements": ["35% faster invoice generation", "40% improved load times", "Integrated AWS Lambda and CI/CD"]
+      "company": "Tata Consulting Services",
+      "period": "Apr 2026 - Present",
+      "description": "Contributing to enterprise-scale applications in a structured development environment",
+      "achievements": [
+        "Working on modular frontend/backend components using React.js and Node.js",
+        "Gaining experience in large team collaboration, Agile workflows, and enterprise coding standards",
+        "Involved in maintaining and enhancing existing systems for performance and scalability"
+      ]
+    },
+    {
+      "title": "Software Engineer",
+      "company": "Invock Digital",
+      "period": "Mar 2023 - Mar 2026",
+      "description": "Promoted to Software Engineer, leading core product development and performance improvements",
+      "achievements": [
+        "35% faster invoice generation",
+        "40% improved load times",
+        "Integrated AWS Lambda and CI/CD",
+        "Optimized MongoDB aggregation queries"
+      ]
     },
     {
       "title": "Junior Software Engineer",
-      "company": "Current Company",
-      "period": "Oct 2021 - Present",
-      "description": "Focused on creating responsive and interactive user interfaces",
-      "achievements": ["Improved page responsiveness", "Enhanced SEO performance", "Optimized frontend performance"]
+      "company": "Invock Digital",
+      "period": "Oct 2021 - Mar 2023",
+      "description": "Started as Junior Software Engineer, building responsive web applications and ERP features",
+      "achievements": [
+        "Improved page responsiveness across devices",
+        "Enhanced SEO and structured data",
+        "Optimized frontend performance",
+        "Fixed UI/UX bugs and deployment updates"
+      ]
     }
   ],
   "stats": [
@@ -51,7 +72,7 @@
     "Outside of work, I’m into boxing, gaming, and exploring new tech. Always excited to collaborate on ambitious projects with curious minds."
   ],
   "heroImage": "images/hero.jpeg",
-  "aboutMeImage": "images/hero.jpeg",
+  "aboutMeImage": "images/hero2.jpeg",
   "projects": [
     {
       "title": "Invock Landing Page",

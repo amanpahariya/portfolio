@@ -11,6 +11,8 @@ import Experience from "@/components/experience";
 import Testimonials from "@/components/testimonials";
 import Stats from "@/components/stats";
 import ScrollProgress from "@/components/scroll-progress";
+import CursorSpotlight from "@/components/cursor-spotlight";
+import ParticlesBackground from "@/components/particles-background";
 
 export default function Home() {
   const containerRef = useRef(null);
@@ -27,6 +29,8 @@ export default function Home() {
 
   return (
     <main className="min-h-screen text-white bg-[#0d1117]">
+      <ParticlesBackground />
+      <CursorSpotlight />
       <ScrollProgress />
       <Header />
 

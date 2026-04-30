@@ -56,7 +56,7 @@ export default function Header() {
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-violet-500 p-0.5">
-                  <img
+                  <motion.img
                     src={HeroInfo.heroImage}
                     alt={HeroInfo.name}
                     className="w-full h-full rounded-full object-cover"
