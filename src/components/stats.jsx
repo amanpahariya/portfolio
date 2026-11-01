@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
-import HeroInfo from "@/utility/hero.json";
+import { useHeroInfo } from "@/components/hero-info-context";
 
 const AnimatedCounter = ({ end, duration = 2 }) => {
   const [count, setCount] = useState(0);
@@ -26,6 +26,7 @@ const AnimatedCounter = ({ end, duration = 2 }) => {
 };
 
 const Stats = () => {
+  const HeroInfo = useHeroInfo();
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,

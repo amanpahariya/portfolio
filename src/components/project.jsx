@@ -2,9 +2,10 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { useState, useRef } from "react";
 import { ArrowRightIcon, EyeIcon, CodeBracketIcon } from "@heroicons/react/24/outline";
-import HeroInfo from "@/utility/hero.json";
+import { useHeroInfo } from "@/components/hero-info-context";
 
 const Project = () => {
+  const HeroInfo = useHeroInfo();
   const [activeTab, setActiveTab] = useState("all");
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({

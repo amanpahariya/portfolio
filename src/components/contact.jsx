@@ -2,9 +2,10 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
-import HeroInfo from "@/utility/hero.json";
+import { useHeroInfo } from "@/components/hero-info-context";
 
 const Contact = () => {
+  const HeroInfo = useHeroInfo();
   const containerRef = useRef(null);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -61,9 +62,9 @@ const Contact = () => {
     {
       icon: "📍",
       title: "Location",
-      value: "India",
+      value: HeroInfo.location,
       link: "#",
-      description: "Available remotely"
+      description: HeroInfo.workArrangement
     }
   ];
 
@@ -129,7 +130,7 @@ const Contact = () => {
                 <div>
                   <h4 className="text-white font-bold text-lg">{HeroInfo.name}</h4>
                   <p className="text-blue-400 text-sm">{HeroInfo.title}</p>
-                  <p className="text-gray-400 text-xs">Available for work</p>
+                  <p className="text-gray-400 text-xs">{HeroInfo.availability}</p>
                 </div>
               </div>
 

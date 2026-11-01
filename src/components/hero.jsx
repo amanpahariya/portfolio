@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { motion, useTransform, useScroll, useSpring } from "framer-motion";
 import Link from "next/link";
 
-import HeroInfo from "@/utility/hero.json";
+import { useHeroInfo } from "@/components/hero-info-context";
 import TypingAnimation from "@/components/typing-animation";
 
 const fadeInUp = {
@@ -12,6 +12,7 @@ const fadeInUp = {
 };
 
 const Hero = () => {
+  const HeroInfo = useHeroInfo();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref })
   const rawScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.6]);
@@ -48,7 +49,7 @@ const Hero = () => {
             >
               <div className="inline-flex items-center px-4 py-2 bg-white/5 backdrop-blur-sm rounded-full border border-white/10">
                 <span className="w-2 h-2 bg-green-400 rounded-full mr-3 animate-pulse" />
-                <span className="text-sm text-gray-300">Available for work</span>
+                <span className="text-sm text-gray-300">{HeroInfo.availability}</span>
               </div>
               
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">

@@ -1,8 +1,9 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import HeroInfo from "@/utility/hero.json";
+import { useHeroInfo } from "@/components/hero-info-context";
 
 const Experience = () => {
+  const HeroInfo = useHeroInfo();
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,

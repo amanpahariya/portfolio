@@ -1,24 +1,38 @@
 {
   "name": "Aman Gupta",
   "title": "Software Engineer",
+  "location": "India",
+  "availability": "Available for work",
+  "workArrangement": "Available remote or on-site",
   "email": "amangupta201497@gmail.com",
   "bio": "I create exceptional digital experiences that combine stunning design with powerful functionality. Specializing in modern web applications and interactive experiences.",
   "seoTitle": "Software Engineer & Full Stack Developer",
-  "seoDescription": "Software Engineer with 4+ years of experience building scalable web applications. Specializing in React.js, Node.js, MongoDB, and AWS cloud solutions.",
+  "seoDescription": "Software Engineer with 5+ years of experience building scalable web applications. Specializing in React.js, Node.js, MongoDB, and AWS cloud solutions.",
   "seoShortDescription": "Building scalable web applications with modern technologies",
-  "seoKeywords": "Software Engineer, Full Stack Developer, React.js, Node.js, MongoDB, JavaScript, TypeScript, Next.js, Express.js, Python, LangChain, LangGraph, n8n, Make.com, AI Automation, Web Development, ERP Systems, CRM Development, Frontend Developer, Backend Developer, Portfolio",
+  "seoKeywords": "Software Engineer, Full Stack Developer, React.js, Node.js, MongoDB, JavaScript, TypeScript, Next.js, Express.js, Python, LangChain, LangGraph, n8n, Make.com, AI Automation, Adobe Experience Manager, AEM, TeamSite, Web Development, ERP Systems, CRM Development, Frontend Developer, Backend Developer, Portfolio",
   "githubUrl": "https://github.com/amanpahariya",
   "linkedinUrl": "https://www.linkedin.com/in/amanguptag",
   "experience": [
     {
-      "title": "Software Engineer",
-      "company": "Tata Consulting Services",
-      "period": "Apr 2026 - Present",
-      "description": "Contributing to enterprise-scale applications in a structured development environment",
+      "title": "Associate Software Engineer",
+      "company": "BlackRock",
+      "period": "Aug 2026 - Present",
+      "description": "Contributing to enterprise digital experiences using Adobe Experience Manager (AEM) and TeamSite.",
       "achievements": [
-        "Working on modular frontend/backend components using React.js and Node.js",
-        "Gaining experience in large team collaboration, Agile workflows, and enterprise coding standards",
-        "Involved in maintaining and enhancing existing systems for performance and scalability"
+        "Working closely with AEM, building hands-on experience with a new technology",
+        "Supporting the development and maintenance of digital experiences in AEM and TeamSite",
+        "Collaborating with a large team and following Agile workflows and enterprise standards"
+      ]
+    },
+    {
+      "title": "IT Analyst",
+      "company": "Tata Consulting Services",
+      "period": "Apr 2026 - July 2026",
+      "description": "Contributed to enterprise-scale applications as an IT Analyst.",
+      "achievements": [
+        "Contributed to frontend and backend development using React.js and Node.js",
+        "Collaborated with a large team using Agile workflows and enterprise coding standards",
+        "Helped maintain and enhance existing systems for performance and scalability"
       ]
     },
     {
@@ -47,7 +61,7 @@
     }
   ],
   "stats": [
-    { "label": "Years Experience", "value": 4, "suffix": "+" },
+    { "label": "Years Experience", "value": 5, "suffix": "+" },
     { "label": "Projects Completed", "value": 15, "suffix": "+" },
     { "label": "Happy Clients", "value": 10, "suffix": "+" },
     { "label": "Code Commits", "value": 1000, "suffix": "+" }
@@ -67,9 +81,9 @@
     }
   ],
   "aboutMe": [
-    "Software Engineer with 4+ years of hands-on experience in building scalable, responsive web applications.",
-    "Problem-solver by nature, well-organized, and highly focused on code quality and performance.",
-    "Outside of work, I’m into boxing, gaming, and exploring new tech. Always excited to collaborate on ambitious projects with curious minds."
+    "I’m an Associate Software Engineer at BlackRock, working closely with AEM and TeamSite to support enterprise digital experiences.",
+    "Previously, I worked as an IT Analyst at Tata Consultancy Services. I enjoy learning new technologies, solving problems, and collaborating with teams to build reliable software.",
+    "Outside of work, I’m into boxing, gaming, and exploring new tech. I’m always excited to collaborate on ambitious projects with curious minds."
   ],
   "heroImage": "images/hero.jpeg",
   "aboutMeImage": "images/hero2.jpeg",
@@ -160,6 +174,56 @@
       ],
       "category": "web",
       "icon": "🎭"
+    }
+  ],
+  "skills":  [
+    {
+      "title": "Frontend",
+      "icon": "🎨",
+      "skills": [
+        { "name": "React", "icon": "⚛️", "level": 90, "color": "from-blue-400 to-cyan-400" },
+        { "name": "Next.js", "icon": "▲", "level": 85, "color": "from-gray-400 to-gray-600" },
+        { "name": "TypeScript", "icon": "🔷", "level": 85, "color": "from-blue-500 to-blue-700" },
+        { "name": "TailwindCSS", "icon": "🎨", "level": 90, "color": "from-teal-400 to-cyan-500" }
+      ]
+    },
+    {
+      "title": "Backend",
+      "icon": "⚙️",
+      "skills": [
+        { "name": "Node.js", "icon": "🟢", "level": 80, "color": "from-green-400 to-green-600" },
+        { "name": "Express.js", "icon": "🚀", "level": 85, "color": "from-gray-500 to-gray-700" },
+        { "name": "MongoDB", "icon": "🍃", "level": 75, "color": "from-green-500 to-green-700" },
+        { "name": "Python", "icon": "🐍", "level": 75, "color": "from-yellow-400 to-blue-500" }
+      ]
+    },
+    {
+      "title": "Cloud & Tools",
+      "icon": "☁️",
+      "skills": [
+        { "name": "AWS", "icon": "☁️", "level": 70, "color": "from-orange-400 to-yellow-500" },
+        { "name": "Docker", "icon": "🐳", "level": 80, "color": "from-blue-500 to-blue-700" },
+        { "name": "Git", "icon": "🌱", "level": 90, "color": "from-red-400 to-red-600" },
+        { "name": "Linux", "icon": "🐧", "level": 75, "color": "from-yellow-400 to-orange-500" }
+      ]
+    },
+    {
+      "title": "AI & Automation",
+      "icon": "🤖",
+      "skills": [
+        { "name": "LangChain", "icon": "🔗", "level": 70, "color": "from-green-400 to-emerald-600" },
+        { "name": "LangGraph", "icon": "🕸️", "level": 65, "color": "from-purple-400 to-violet-600" },
+        { "name": "n8n", "icon": "⚡", "level": 75, "color": "from-orange-400 to-red-500" },
+        { "name": "Make.com", "icon": "🔄", "level": 75, "color": "from-violet-400 to-purple-600" }
+      ]
+    },
+    {
+      "title": "CMS & Content Platforms",
+      "icon": "🧩",
+      "skills": [
+        { "name": "Adobe Experience Manager (AEM)", "icon": "🏢", "experience": "Currently learning", "color": "from-red-400 to-red-600" },
+        { "name": "TeamSite", "icon": "🌐", "experience": "Currently learning", "color": "from-blue-400 to-indigo-600" }
+      ]
     }
   ]
 }

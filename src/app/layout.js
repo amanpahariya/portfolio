@@ -1,7 +1,9 @@
 import { Outfit } from "next/font/google";
 import Link from "next/link";
 import { ThemeProvider } from "@/components/theme-provider"
+import { HeroInfoProvider } from "@/components/hero-info-context";
 import HeroInfo from "@/utility/hero.json";
+import { SITE_URL } from "@/utility/site-config";
 import "./globals.css";
 import "./app.scss"
 
@@ -12,15 +14,20 @@ const outfit = Outfit({
 });
 
 export const metadata = {
+  metadataBase: new URL(SITE_URL),
   title: `${HeroInfo.name} - ${HeroInfo.seoTitle}`,
   description: HeroInfo.seoDescription,
   keywords: `${HeroInfo.name}, ${HeroInfo.seoKeywords}`,
   authors: [{ name: HeroInfo.name, url: HeroInfo.githubUrl }],
   creator: HeroInfo.name,
   publisher: HeroInfo.name,
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
+    url: SITE_URL,
     title: `${HeroInfo.name} - ${HeroInfo.seoTitle}`,
     description: HeroInfo.seoDescription,
     siteName: `${HeroInfo.name} Portfolio`,
@@ -50,53 +57,36 @@ export const metadata = {
       "max-snippet": -1,
     },
   },
-  verification: {
-    google: "your-google-verification-code",
-  },
 };
 
 export default function RootLayout({ children }) {
+  const currentRole = HeroInfo.experience[0];
+  const skills = HeroInfo.skills.flatMap((category) =>
+    category.skills.map((skill) => skill.name)
+  );
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": HeroInfo.name,
-    "jobTitle": HeroInfo.title,
+    "jobTitle": currentRole.title,
     "description": HeroInfo.seoDescription,
-    "url": typeof window !== 'undefined' ? window.location.origin : '',
-    "image": metadata.openGraph.images[0].url,
+    "url": SITE_URL,
+    "image": new URL(HeroInfo.heroImage, SITE_URL).href,
     "email": HeroInfo.email,
-    "knowsAbout": [
-      "JavaScript",
-      "TypeScript",
-      "React.js",
-      "Next.js",
-      "Node.js",
-      "Express.js",
-      "MongoDB",
-      "AWS",
-      "Full Stack Development",
-      "ERP Systems",
-      "CRM Development",
-      "Web Applications",
-      "Cloud Architecture"
-    ],
+    "knowsAbout": skills,
     "hasOccupation": {
       "@type": "Occupation",
-      "name": HeroInfo.title,
+      "name": currentRole.title,
       "occupationLocation": {
         "@type": "Country",
-        "name": "India"
+        "name": HeroInfo.location
       },
-      "skills": "React.js, Node.js, MongoDB, AWS, JavaScript, TypeScript, Next.js, Express.js",
-      "experienceRequirements": "4+ years"
-    },
-    "alumniOf": {
-      "@type": "EducationalOrganization",
-      "name": "Educational Institution"
+      "skills": skills.join(", ")
     },
     "worksFor": {
       "@type": "Organization",
-      "name": "Tata Consulting Services"
+      "name": currentRole.company
     },
     "sameAs": [
       HeroInfo.githubUrl,
@@ -121,7 +111,9 @@ export default function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <HeroInfoProvider value={HeroInfo}>
+            {children}
+          </HeroInfoProvider>
         </ThemeProvider>
         <Link
           href={HeroInfo.githubUrl}

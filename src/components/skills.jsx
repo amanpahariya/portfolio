@@ -1,7 +1,9 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
+import { useHeroInfo } from "@/components/hero-info-context";
 
 const Skills = () => {
+  const { skills: skillCategories } = useHeroInfo();
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -11,56 +13,13 @@ const Skills = () => {
   const y = useTransform(scrollYProgress, [0, 1], [30, -30]);
   const rotate = useTransform(scrollYProgress, [0, 1], [0, 5]);
 
-  const skillCategories = [
-    {
-      title: "Frontend",
-      icon: "🎨",
-      skills: [
-        { name: 'React', icon: '⚛️', level: 90, color: 'from-blue-400 to-cyan-400' },
-        { name: 'Next.js', icon: '▲', level: 85, color: 'from-gray-400 to-gray-600' },
-        { name: 'TypeScript', icon: '🔷', level: 85, color: 'from-blue-500 to-blue-700' },
-        { name: 'TailwindCSS', icon: '🎨', level: 90, color: 'from-teal-400 to-cyan-500' }
-      ]
-    },
-    {
-      title: "Backend",
-      icon: "⚙️",
-      skills: [
-        { name: 'Node.js', icon: '🟢', level: 80, color: 'from-green-400 to-green-600' },
-        { name: 'Express.js', icon: '🚀', level: 85, color: 'from-gray-500 to-gray-700' },
-        { name: 'MongoDB', icon: '🍃', level: 75, color: 'from-green-500 to-green-700' },
-        { name: 'Python', icon: '🐍', level: 75, color: 'from-yellow-400 to-blue-500' }
-      ]
-    },
-    {
-      title: "Cloud & Tools",
-      icon: "☁️",
-      skills: [
-        { name: 'AWS', icon: '☁️', level: 70, color: 'from-orange-400 to-yellow-500' },
-        { name: 'Docker', icon: '🐳', level: 80, color: 'from-blue-500 to-blue-700' },
-        { name: 'Git', icon: '🌱', level: 90, color: 'from-red-400 to-red-600' },
-        { name: 'Linux', icon: '🐧', level: 75, color: 'from-yellow-400 to-orange-500' }
-      ]
-    },
-    {
-      title: "AI & Automation",
-      icon: "🤖",
-      skills: [
-        { name: 'LangChain', icon: '🔗', level: 70, color: 'from-green-400 to-emerald-600' },
-        { name: 'LangGraph', icon: '🕸️', level: 65, color: 'from-purple-400 to-violet-600' },
-        { name: 'n8n', icon: '⚡', level: 75, color: 'from-orange-400 to-red-500' },
-        { name: 'Make.com', icon: '🔄', level: 75, color: 'from-violet-400 to-purple-600' }
-      ]
-    }
-  ];
-
   return (
     <section id="skills" className="py-20 px-6 lg:px-8 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute top-32 right-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
       <div className="absolute bottom-20 left-10 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl" />
       
-      <motion.div 
+      <motion.div
         ref={containerRef}
         className="max-w-7xl mx-auto relative z-10"
         style={{ y }}
@@ -80,7 +39,7 @@ const Skills = () => {
           </h2>
         </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {skillCategories.map((category, categoryIndex) => (
             <motion.div
               key={category.title}
@@ -117,25 +76,27 @@ const Skills = () => {
                         </span>
                       </div>
                       <span className="text-sm text-blue-300 font-semibold">
-                        {skill.level}%
+                        {skill.level !== undefined ? `${skill.level}%` : skill.experience}
                       </span>
                     </div>
                     
-                    <div className="relative h-2 bg-white/10 rounded-full overflow-hidden">
-                      <motion.div 
-                        className={`h-full bg-gradient-to-r ${skill.color} rounded-full relative`}
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${skill.level}%` }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1.5, delay: (categoryIndex * 0.2) + (skillIndex * 0.1) + 0.3, ease: "easeOut" }}
-                      >
+                    {skill.level !== undefined && (
+                      <div className="relative h-2 bg-white/10 rounded-full overflow-hidden">
                         <motion.div
-                          className="absolute inset-0 bg-white/20 rounded-full"
-                          animate={{ x: ["-100%", "100%"] }}
-                          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                        />
-                      </motion.div>
-                    </div>
+                          className={`h-full bg-gradient-to-r ${skill.color} rounded-full relative`}
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${skill.level}%` }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 1.5, delay: (categoryIndex * 0.2) + (skillIndex * 0.1) + 0.3, ease: "easeOut" }}
+                        >
+                          <motion.div
+                            className="absolute inset-0 bg-white/20 rounded-full"
+                            animate={{ x: ["-100%", "100%"] }}
+                            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                          />
+                        </motion.div>
+                      </div>
+                    )}
                   </motion.div>
                 ))}
               </div>
