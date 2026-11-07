@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowUpIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { useHeroInfo } from "@/components/hero-info-context";
 import { playTactileClick } from "@/utility/sound";
+import { sendGTMEvent } from "@/utility/gtm";
 
 const REACTIONS = [
   { id: "craft", label: "🔥 High Craft", initial: 142 },
@@ -42,6 +43,8 @@ export default function Footer() {
       ...prev,
       [id]: true,
     }));
+
+    sendGTMEvent("visitor_reaction_clicked", { reaction_id: id });
 
     // Post to telemetry endpoint
     fetch("/api/telemetry", {

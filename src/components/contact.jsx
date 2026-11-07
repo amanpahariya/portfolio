@@ -12,6 +12,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useHeroInfo } from "@/components/hero-info-context";
 import { playTactileClick } from "@/utility/sound";
+import { sendGTMEvent } from "@/utility/gtm";
 
 const PRESET_TOPICS = [
   "Enterprise Consultation",
@@ -33,13 +34,26 @@ export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
 
   const copyEmail = async () => {
+    sendGTMEvent("contact_email_copied");
     try {
       await navigator.clipboard.writeText(HeroInfo.email);
       setCopied(true);
       playTactileClick("success");
       setTimeout(() => setCopied(false), 2400);
     } catch {
-      // fallback
+      try {
+        const textArea = document.createElement("textarea");
+        textArea.value = HeroInfo.email;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+        setCopied(true);
+        playTactileClick("success");
+        setTimeout(() => setCopied(false), 2400);
+      } catch {
+        // clipboard unavailable
+      }
     }
   };
 
@@ -57,6 +71,7 @@ export default function Contact() {
       setIsSubmitting(false);
       setSubmitted(true);
       playTactileClick("success");
+      sendGTMEvent("contact_form_submitted", { topic: formData.topic });
 
       // Mailto invocation
       const subject = encodeURIComponent(

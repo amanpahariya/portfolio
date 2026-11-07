@@ -10,6 +10,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useHeroInfo } from "@/components/hero-info-context";
 import { playTactileClick } from "@/utility/sound";
+import { sendGTMEvent } from "@/utility/gtm";
 
 const CATEGORIES = [
   { id: "all", label: "All Engineering" },
@@ -37,6 +38,7 @@ export default function Project() {
   const handleInspect = (project) => {
     setInspectedProject(project);
     playTactileClick("snap");
+    sendGTMEvent("project_blueprint_opened", { project: project.title });
   };
 
   const closeInspect = () => {
@@ -48,6 +50,7 @@ export default function Project() {
     setIsBenchmarking(true);
     setBenchmarkDone(false);
     playTactileClick("snap");
+    sendGTMEvent("benchmark_simulated");
 
     setTimeout(() => {
       setIsBenchmarking(false);
