@@ -146,6 +146,27 @@
       "icon": "💼"
     },
     {
+    "title": "Portfolio v4",
+    "description": "Fourth major evolution of my personal portfolio featuring an interactive Three.js 3D kinetic wireframe core, Web Audio API analog haptics, and Archon—an autonomous AI digital twin with real-time SSE streaming.",
+    "techStack": [
+      "Next.js 14",
+      "Three.js",
+      "Tailwind CSS",
+      "Web Audio API",
+      "Netlify"
+    ],
+    "link": "https://amanguptag.netlify.app",
+    "githubUrl": "https://github.com/amanpahariya/portfolio",
+    "highlights": [
+      "Interactive 3D kinetic wireframe core with mobile gyroscope tilt",
+      "Archon autonomous AI engineering agent with sub-20ms semantic caching",
+      "Native Web Audio API mechanical haptic feedback (tick, snap, success)",
+      "Editorial paper & charcoal typography design system with latency simulator"
+    ],
+    "category": "web",
+    "icon": "🔮"
+  },
+    {
       "title": "Portfolio v3",
       "description":
         "Third iteration of my personal portfolio website showcasing my projects and skills with a modern, responsive design and smooth animations.",
@@ -158,19 +179,21 @@
         "Modern UI with dark mode support"
       ],
       "category": "web",
-      "icon": "🎨"
+      "icon": "🎨",
+      "githubUrl": "https://github.com/amanpahariya/portfolio-v3"
     },
     {
       "title": "Portfolio v2",
       "description":
-        "Second version of my personal portfolio with improved design and interactive elements to better showcase my projects and technical abilities.",
-      "techStack": ["HTML", "CSS", "JavaScript", "Netlify"],
+        "Second version of my personal portfolio built with React to showcase my projects, skills, and technical experience with interactive components.",
+      "techStack": ["React.js", "CSS", "JavaScript", "Netlify"],
       "link": "https://amangupta-v2.netlify.app",
+      "githubUrl": "https://github.com/amanpahariya/portfolio-v2",
       "highlights": [
-        "Clean and minimalist design",
-        "Improved project showcasing",
+        "Component-based architecture built with React",
+        "Interactive project showcasing and clean UI design",
         "Contact form with validation",
-        "Optimized for fast loading"
+        "Fast loading and optimized web deployment"
       ],
       "category": "web",
       "icon": "🎭"

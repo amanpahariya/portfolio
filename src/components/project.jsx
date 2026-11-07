@@ -179,18 +179,33 @@ export default function Project() {
                       <span>Blueprint</span>
                     </button>
 
-                    {hasExternal && (
-                      <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-muted-green hover:text-charcoal transition-colors uppercase tracking-wider"
-                        aria-label={`Open ${project.title} in new tab`}
-                      >
-                        <span>Live Site</span>
-                        <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5" />
-                      </a>
-                    )}
+                    <div className="flex items-center gap-3">
+                      {project.githubUrl && (
+                        <a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-charcoal-light hover:text-charcoal transition-colors uppercase tracking-wider"
+                          aria-label={`Open ${project.title} GitHub repository in new tab`}
+                        >
+                          <span>GitHub</span>
+                          <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5" />
+                        </a>
+                      )}
+
+                      {hasExternal && (
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-muted-green hover:text-charcoal transition-colors uppercase tracking-wider"
+                          aria-label={`Open ${project.title} in new tab`}
+                        >
+                          <span>Live Site</span>
+                          <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5" />
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               </article>
@@ -333,17 +348,30 @@ export default function Project() {
                     </div>
                   </div>
 
-                  {inspectedProject.link && inspectedProject.link !== "#" && (
-                    <div className="pt-4 border-t border-border-subtle flex justify-end">
-                      <a
-                        href={inspectedProject.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-chartreuse text-charcoal font-mono text-xs uppercase tracking-wider font-bold shadow-sm hover:bg-chartreuse-dark transition-colors"
-                      >
-                        <span>Launch Live Deployment</span>
-                        <ArrowTopRightOnSquareIcon className="w-4 h-4" />
-                      </a>
+                  {(inspectedProject.githubUrl || (inspectedProject.link && inspectedProject.link !== "#")) && (
+                    <div className="pt-4 border-t border-border-subtle flex flex-wrap items-center justify-end gap-3">
+                      {inspectedProject.githubUrl && (
+                        <a
+                          href={inspectedProject.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg border border-border-mid hover:border-charcoal text-charcoal font-mono text-xs uppercase tracking-wider font-semibold transition-colors"
+                        >
+                          <span>GitHub Repository</span>
+                          <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5" />
+                        </a>
+                      )}
+                      {inspectedProject.link && inspectedProject.link !== "#" && (
+                        <a
+                          href={inspectedProject.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-chartreuse text-charcoal font-mono text-xs uppercase tracking-wider font-bold shadow-sm hover:bg-chartreuse-dark transition-colors"
+                        >
+                          <span>Launch Live Deployment</span>
+                          <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+                        </a>
+                      )}
                     </div>
                   )}
                 </div>
