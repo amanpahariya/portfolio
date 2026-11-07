@@ -1,65 +1,66 @@
-'use client';
-import { useEffect, useRef } from "react";
+"use client";
+import { useEffect } from "react";
+import Header from "@/components/header";
 import Hero from "@/components/hero";
 import About from "@/components/about";
+import Experience from "@/components/experience";
 import Project from "@/components/project";
 import Skills from "@/components/skills";
-import Header from "@/components/header";
-import HeroVideo from "@/components/heroVideo";
 import Contact from "@/components/contact";
-import Experience from "@/components/experience";
-import Testimonials from "@/components/testimonials";
-import Stats from "@/components/stats";
-import ScrollProgress from "@/components/scroll-progress";
-import CursorSpotlight from "@/components/cursor-spotlight";
-import ParticlesBackground from "@/components/particles-background";
+import Footer from "@/components/footer";
+import AiCopilot from "@/components/ai-copilot";
+import { playTactileClick } from "@/utility/sound";
 
 export default function Home() {
-  const containerRef = useRef(null);
-
   useEffect(() => {
+    // Hash scrolling on initial mount
     const hash = window.location.hash;
     if (hash) {
-      const targetElement = document.querySelector(hash);
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: "smooth" });
-      }
+      const el = document.querySelector(hash);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
     }
-  }, [])
+
+    // Number keys quick jump (1-5) when not inside input/textarea
+    const handleNumberNav = (e) => {
+      const activeTag = document.activeElement?.tagName?.toLowerCase();
+      if (activeTag === "input" || activeTag === "textarea") return;
+
+      const mapping = {
+        "1": "about",
+        "2": "experience",
+        "3": "project",
+        "4": "skills",
+        "5": "contact",
+      };
+
+      if (mapping[e.key]) {
+        const el = document.getElementById(mapping[e.key]);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+          playTactileClick("tick");
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleNumberNav);
+    return () => window.removeEventListener("keydown", handleNumberNav);
+  }, []);
 
   return (
-    <main className="min-h-screen text-white bg-[#0d1117]">
-      <ParticlesBackground />
-      <CursorSpotlight />
-      <ScrollProgress />
+    <div className="min-h-screen bg-ivory text-charcoal font-sans selection:bg-chartreuse selection:text-charcoal relative">
       <Header />
 
-      {/* Hero Section */}
-      <section ref={containerRef} className="intro-hero">
+      <main id="main-content">
         <Hero />
-        <HeroVideo />
-      </section>
+        <About />
+        <Experience />
+        <Project />
+        <Skills />
+        <Contact />
+      </main>
 
-      {/* About Section */}
-      <About />
-
-      {/* Stats Section */}
-      <Stats />
-
-      {/* Experience Section */}
-      <Experience />
-
-      {/* Projects Section */}
-      <Project />
-
-      {/* Skills Section */}
-      <Skills />
-
-      {/* Testimonials Section */}
-      <Testimonials />
-
-      {/* Contact Section */}
-      <Contact />
-    </main>
+      <Footer />
+      <AiCopilot />
+    </div>
   );
 }

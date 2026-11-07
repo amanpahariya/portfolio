@@ -1,295 +1,299 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import Link from "next/link";
-import { useRef, useState } from "react";
-import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
+"use client";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  EnvelopeIcon,
+  MapPinIcon,
+  PaperAirplaneIcon,
+  ClipboardDocumentCheckIcon,
+  ClipboardDocumentIcon,
+  ArrowTopRightOnSquareIcon,
+  CheckCircleIcon,
+} from "@heroicons/react/24/outline";
 import { useHeroInfo } from "@/components/hero-info-context";
+import { playTactileClick } from "@/utility/sound";
 
-const Contact = () => {
+const PRESET_TOPICS = [
+  "Enterprise Consultation",
+  "Full-Time Role",
+  "React & Next.js Architecture",
+  "CMS / AEM Advisory",
+];
+
+export default function Contact() {
   const HeroInfo = useHeroInfo();
-  const containerRef = useRef(null);
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    topic: PRESET_TOPICS[0],
+    message: "",
   });
+  const [copied, setCopied] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
-  const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
-  const rotate = useTransform(scrollYProgress, [0, 1], [-2, 2]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus(null);
-    
+  const copyEmail = async () => {
     try {
-      // Simulate form submission (replace with actual API call)
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // For now, create a mailto link with the form data
-      const subject = encodeURIComponent(`Portfolio Contact: ${formData.name}`);
-      const body = encodeURIComponent(
-        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-      );
-      
-      window.location.href = `mailto:${HeroInfo.email}?subject=${subject}&body=${body}`;
-      
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', message: '' });
-    } catch (error) {
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
+      await navigator.clipboard.writeText(HeroInfo.email);
+      setCopied(true);
+      playTactileClick("success");
+      setTimeout(() => setCopied(false), 2400);
+    } catch {
+      // fallback
     }
   };
 
-  const contactMethods = [
-    {
-      icon: "📧",
-      title: "Email",
-      value: HeroInfo.email,
-      link: `mailto:${HeroInfo.email}`,
-      description: "Send me an email"
-    },
-    {
-      icon: "💼",
-      title: "LinkedIn",
-      value: "Connect with me",
-      link: HeroInfo.linkedinUrl,
-      description: "Professional network"
-    },
-    {
-      icon: "📍",
-      title: "Location",
-      value: HeroInfo.location,
-      link: "#",
-      description: HeroInfo.workArrangement
-    }
-  ];
+  const handleTopicSelect = (t) => {
+    setFormData((prev) => ({ ...prev, topic: t }));
+    playTactileClick("tick");
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    playTactileClick("snap");
+
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setSubmitted(true);
+      playTactileClick("success");
+
+      // Mailto invocation
+      const subject = encodeURIComponent(
+        `[Portfolio] ${formData.topic} — from ${formData.name}`
+      );
+      const body = encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\nTopic: ${formData.topic}\n\nMessage:\n${formData.message}`
+      );
+      window.location.href = `mailto:${HeroInfo.email}?subject=${subject}&body=${body}`;
+    }, 600);
+  };
 
   return (
-    <section id="contact" className="py-20 px-6 lg:px-8 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute top-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-40 left-10 w-80 h-80 bg-violet-500/10 rounded-full blur-3xl" />
-      
-      <motion.div
-        ref={containerRef}
-        className="max-w-6xl mx-auto relative z-10"
-        style={{ y }}
-      >
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-4xl lg:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-violet-400">
-                        Let&apos;s Connect
-            <motion.p className="text-sm text-gray-300 mt-2">
-              Ready to bring your ideas to life? Let&apos;s discuss your next project
-            </motion.p>
-          </h2>
-        </motion.div>
+    <section
+      id="contact"
+      className="bg-paper py-24 px-6 lg:px-8 border-t border-border-subtle relative bg-grain"
+      aria-labelledby="contact-heading"
+    >
+      <div className="max-w-6xl mx-auto">
+        {/* Section Header */}
+        <div className="flex flex-wrap items-baseline justify-between gap-4 pb-6 mb-16 border-b border-border-subtle font-mono text-xs text-charcoal-light">
+          <div className="flex items-center gap-2">
+            <span className="text-muted-green font-bold">[05]</span>
+            <span className="uppercase tracking-widest text-charcoal">
+              COMMUNICATIONS & DISPATCH CONSOLE
+            </span>
+          </div>
+          <span className="text-[11px] uppercase tracking-wider">
+            DIRECT ROUTING ACTIVE
+          </span>
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Methods */}
-          <motion.div
-            className="space-y-6"
-            style={{ rotate }}
-          >
-            <motion.div
-              className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10"
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              {/* Profile Card */}
-              <div className="flex items-center space-x-4 mb-8 pb-6 border-b border-white/10">
-                <motion.div
-                  className="relative w-16 h-16 flex-shrink-0"
-                  whileHover={{ scale: 1.1 }}
+        <div className="grid lg:grid-cols-12 gap-12 items-start">
+          {/* Left Column: Direct Inquiries & Quick Copy (5 cols) */}
+          <div className="lg:col-span-5 flex flex-col gap-8">
+            <div>
+              <h2
+                id="contact-heading"
+                className="text-3xl sm:text-4xl font-bold text-charcoal leading-tight tracking-tight mb-4"
+              >
+                Initiate a conversation regarding ambitious engineering.
+              </h2>
+              <div className="w-16 h-1 bg-chartreuse mb-4" />
+              <p className="text-sm text-charcoal-mid leading-relaxed">
+                Currently open to select technical roles, enterprise CMS architecture discussions, and innovative digital product builds.
+              </p>
+            </div>
+
+            {/* Quick Copy Email Card */}
+            <div className="p-5 bg-ivory rounded-xl border border-border-subtle shadow-sm flex flex-col gap-3 font-mono">
+              <span className="text-xs text-charcoal-light uppercase tracking-wider font-semibold">
+                Direct Electronic Mail
+              </span>
+              <div className="flex items-center justify-between gap-2 p-3 bg-paper rounded-lg border border-border-mid/50">
+                <span className="text-xs font-bold text-charcoal truncate">
+                  {HeroInfo.email}
+                </span>
+                <button
+                  type="button"
+                  onClick={copyEmail}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-charcoal text-chartreuse hover:bg-black transition-colors text-xs font-semibold uppercase tracking-wider"
+                  aria-label="Copy email address"
                 >
-                  <div className="w-full h-full rounded-full bg-gradient-to-br from-blue-500 to-violet-500 p-0.5">
-                    <motion.img
-                      src={HeroInfo.aboutMeImage}
-                      alt={HeroInfo.name}
-                      className="w-full h-full rounded-full object-cover"
+                  {copied ? (
+                    <>
+                      <ClipboardDocumentCheckIcon className="w-4 h-4 text-chartreuse" />
+                      <span>Copied</span>
+                    </>
+                  ) : (
+                    <>
+                      <ClipboardDocumentIcon className="w-4 h-4" />
+                      <span>Copy</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Network Channels */}
+            <div className="space-y-3 font-mono text-xs">
+              <span className="text-charcoal-light uppercase tracking-wider font-semibold block">
+                Professional Channels
+              </span>
+
+              <a
+                href={HeroInfo.linkedinUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => playTactileClick("tick")}
+                className="flex items-center justify-between p-3.5 bg-ivory border border-border-subtle rounded-xl hover:border-charcoal transition-colors group"
+              >
+                <span className="font-semibold text-charcoal group-hover:text-muted-green">
+                  LinkedIn &rarr; /in/amanguptag
+                </span>
+                <ArrowTopRightOnSquareIcon className="w-4 h-4 text-charcoal-light group-hover:text-charcoal" />
+              </a>
+
+              <a
+                href={HeroInfo.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => playTactileClick("tick")}
+                className="flex items-center justify-between p-3.5 bg-ivory border border-border-subtle rounded-xl hover:border-charcoal transition-colors group"
+              >
+                <span className="font-semibold text-charcoal group-hover:text-muted-green">
+                  GitHub &rarr; /amanpahariya
+                </span>
+                <ArrowTopRightOnSquareIcon className="w-4 h-4 text-charcoal-light group-hover:text-charcoal" />
+              </a>
+            </div>
+          </div>
+
+          {/* Right Column: Dispatch Form (7 cols) */}
+          <div className="lg:col-span-7">
+            <div className="bg-ivory border border-border-subtle rounded-2xl p-6 sm:p-8 shadow-sm">
+              <span className="font-mono text-xs text-muted-green font-bold uppercase tracking-wider block mb-2">
+                MESSAGE DISPATCH
+              </span>
+              <h3 className="text-xl font-bold text-charcoal mb-6">
+                Send Direct Transmission
+              </h3>
+
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {/* Topic Selector Pills */}
+                <div>
+                  <label className="font-mono text-xs text-charcoal-light uppercase tracking-wider block mb-2 font-semibold">
+                    Topic of Discussion
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {PRESET_TOPICS.map((topic) => (
+                      <button
+                        key={topic}
+                        type="button"
+                        onClick={() => handleTopicSelect(topic)}
+                        className={`text-xs font-mono px-3 py-1.5 rounded-lg border transition-all ${
+                          formData.topic === topic
+                            ? "bg-charcoal text-chartreuse border-charcoal font-bold"
+                            : "bg-paper text-charcoal-mid border-border-subtle hover:border-charcoal-light"
+                        }`}
+                      >
+                        {topic}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Name & Email Row */}
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="contact-name"
+                      className="font-mono text-xs text-charcoal-light uppercase tracking-wider block mb-1.5 font-semibold"
+                    >
+                      Your Name
+                    </label>
+                    <input
+                      id="contact-name"
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
+                      placeholder="Jane Doe"
+                      className="w-full px-4 py-2.5 bg-paper border border-border-subtle rounded-xl text-xs font-mono text-charcoal placeholder-charcoal-light focus:outline-none focus:border-charcoal transition-colors"
                     />
                   </div>
-                  <motion.div
-                    className="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-500/30 to-violet-500/30 blur-sm -z-10"
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                  />
-                  <span className="absolute bottom-0 right-0 w-4 h-4 bg-green-400 rounded-full border-2 border-[#0d1117]" />
-                </motion.div>
-                <div>
-                  <h4 className="text-white font-bold text-lg">{HeroInfo.name}</h4>
-                  <p className="text-blue-400 text-sm">{HeroInfo.title}</p>
-                  <p className="text-gray-400 text-xs">{HeroInfo.availability}</p>
-                </div>
-              </div>
 
-              <h3 className="text-2xl font-bold text-white mb-6">Get In Touch</h3>
-              <p className="text-gray-300 mb-8 leading-relaxed">
-                I&apos;m always interested in new opportunities and exciting projects. 
-                Whether you have a question or just want to say hi, feel free to reach out!
-              </p>
-              
-              <div className="space-y-4">
-                {contactMethods.map((method, index) => (
-                  <motion.div
-                    key={method.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                  >
-                    <Link
-                      href={method.link}
-                      target={method.link.startsWith('http') ? '_blank' : '_self'}
-                      className="group flex items-center space-x-4 p-4 rounded-xl hover:bg-white/10 transition-all duration-300"
+                  <div>
+                    <label
+                      htmlFor="contact-email"
+                      className="font-mono text-xs text-charcoal-light uppercase tracking-wider block mb-1.5 font-semibold"
                     >
-                      <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-500/20 to-violet-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <span className="text-xl">{method.icon}</span>
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="font-semibold text-white group-hover:text-blue-300 transition-colors">
-                          {method.title}
-                        </h4>
-                        <p className="text-sm text-gray-400">{method.description}</p>
-                        <p className="text-blue-400 text-sm">{method.value}</p>
-                      </div>
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          </motion.div>
+                      Email Address
+                    </label>
+                    <input
+                      id="contact-email"
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
+                      placeholder="jane@company.com"
+                      className="w-full px-4 py-2.5 bg-paper border border-border-subtle rounded-xl text-xs font-mono text-charcoal placeholder-charcoal-light focus:outline-none focus:border-charcoal transition-colors"
+                    />
+                  </div>
+                </div>
 
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
-              <h3 className="text-2xl font-bold text-white mb-6">Send Message</h3>
-              
-              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Message Field */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Your Name
+                  <label
+                    htmlFor="contact-message"
+                    className="font-mono text-xs text-charcoal-light uppercase tracking-wider block mb-1.5 font-semibold"
+                  >
+                    Transmission Content
                   </label>
-                  <motion.input
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition-all"
-                    placeholder="Enter your name"
-                    whileFocus={{ scale: 1.02 }}
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Email Address
-                  </label>
-                  <motion.input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition-all"
-                    placeholder="Enter your email"
-                    whileFocus={{ scale: 1.02 }}
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Message
-                  </label>
-                  <motion.textarea
-                    value={formData.message}
-                    onChange={(e) => setFormData({...formData, message: e.target.value})}
+                  <textarea
+                    id="contact-message"
                     rows={5}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition-all resize-none"
-                    placeholder="Tell me about your project..."
-                    whileFocus={{ scale: 1.02 }}
                     required
+                    value={formData.message}
+                    onChange={(e) =>
+                      setFormData({ ...formData, message: e.target.value })
+                    }
+                    placeholder="Provide details on project scope, timeline, or engineering requirements..."
+                    className="w-full px-4 py-2.5 bg-paper border border-border-subtle rounded-xl text-xs font-mono text-charcoal placeholder-charcoal-light focus:outline-none focus:border-charcoal transition-colors resize-none"
                   />
                 </div>
-                
-                <motion.button
+
+                {/* Submit Action */}
+                <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full px-6 py-4 rounded-xl text-white font-semibold transition-all relative overflow-hidden group ${
-                    isSubmitting 
-                      ? 'bg-gray-600 cursor-not-allowed' 
-                      : 'bg-gradient-to-r from-blue-600 to-violet-600 hover:scale-105'
-                  }`}
-                  whileHover={!isSubmitting ? { scale: 1.02 } : {}}
-                  whileTap={!isSubmitting ? { scale: 0.98 } : {}}
+                  className="w-full py-3.5 px-6 rounded-xl bg-chartreuse text-charcoal font-mono text-xs uppercase tracking-wider font-bold shadow-sm hover:bg-chartreuse-dark hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                 >
-                  <span className="relative z-10 flex items-center justify-center space-x-2">
-                    {isSubmitting ? (
-                      <>
-                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        <span>Sending...</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Send Message</span>
-                        <PaperAirplaneIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                      </>
-                    )}
-                  </span>
-                  
-                  {!isSubmitting && (
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-blue-400 to-violet-400 opacity-0 group-hover:opacity-100 transition-opacity"
-                      whileHover={{
-                        background: [
-                          "linear-gradient(45deg, #3b82f6, #8b5cf6)",
-                          "linear-gradient(45deg, #8b5cf6, #3b82f6)"
-                        ]
-                      }}
-                      transition={{ duration: 0.6, repeat: Infinity, repeatType: "reverse" }}
-                    />
+                  {isSubmitting ? (
+                    <span>DISPATCHING TRANSMISSION...</span>
+                  ) : (
+                    <>
+                      <span>Transmit Message</span>
+                      <PaperAirplaneIcon className="w-4 h-4" />
+                    </>
                   )}
-                </motion.button>
-                
-                {/* Status Messages */}
-                {submitStatus && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={`p-4 rounded-xl text-center ${
-                      submitStatus === 'success' 
-                        ? 'bg-green-500/20 border border-green-500/30 text-green-300'
-                        : 'bg-red-500/20 border border-red-500/30 text-red-300'
-                    }`}
-                  >
-                    {submitStatus === 'success' 
-                      ? '✅ Message sent! Your email client should open shortly.'
-                      : '❌ Something went wrong. Please try again or email me directly.'
-                    }
-                  </motion.div>
+                </button>
+
+                {submitted && (
+                  <p className="font-mono text-xs text-muted-green text-center pt-2 flex items-center justify-center gap-1.5">
+                    <CheckCircleIcon className="w-4 h-4 text-chartreuse-dark" />
+                    <span>Transmission initiated. Your mail client should launch.</span>
+                  </p>
                 )}
               </form>
             </div>
-          </motion.div>
+          </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
-};
-
-export default Contact;
+}

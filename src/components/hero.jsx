@@ -1,208 +1,178 @@
-import React, { useRef } from "react";
-import { motion, useTransform, useScroll, useSpring } from "framer-motion";
+"use client";
+import dynamic from "next/dynamic";
 import Link from "next/link";
-
+import { motion } from "framer-motion";
+import {
+  MapPinIcon,
+  EnvelopeIcon,
+  ArrowRightIcon,
+  CommandLineIcon,
+  CheckCircleIcon,
+} from "@heroicons/react/24/outline";
 import { useHeroInfo } from "@/components/hero-info-context";
-import TypingAnimation from "@/components/typing-animation";
+import { playTactileClick } from "@/utility/sound";
 
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 1 },
-};
+const HeroSculpture = dynamic(() => import("@/components/hero-sculpture"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full min-h-[400px] flex items-center justify-center font-mono text-xs text-charcoal-light">
+      [CALIBRATING KINETIC SCULPTURE...]
+    </div>
+  ),
+});
 
-const Hero = () => {
+export default function Hero() {
   const HeroInfo = useHeroInfo();
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref })
-  const rawScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.6]);
-
-  const scale = useSpring(rawScale, {
-    stiffness: 40,
-    damping: 15,
-    mass: 1
-  });
 
   return (
-    <React.Fragment>
-      <motion.div
-        className="intro-hero-content relative overflow-hidden"
-        initial="initial"
-        animate="animate"
-        variants={fadeInUp}
-        style={{ scale }}
-      >
-        {/* Background Elements */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-violet-900/20" />
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl" />
-        
-        {/* Content Container */}
-        <div className="relative z-10 grid lg:grid-cols-2 gap-12 items-center min-h-screen px-6 lg:px-8">
-          {/* Left Column - Text Content */}
-          <div className="space-y-8">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="space-y-4"
-            >
-              <div className="inline-flex items-center px-4 py-2 bg-white/5 backdrop-blur-sm rounded-full border border-white/10">
-                <span className="w-2 h-2 bg-green-400 rounded-full mr-3 animate-pulse" />
-                <span className="text-sm text-gray-300">{HeroInfo.availability}</span>
-              </div>
-              
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
-                <span className="block text-white/90">Hi, I&apos;m</span>
-                <span className="block mt-2 bg-gradient-to-r from-blue-400 via-purple-400 to-violet-400 bg-clip-text text-transparent">
-                  {HeroInfo.name}
+    <section
+      className="relative min-h-[92vh] flex items-center pt-24 pb-16 bg-ivory bg-grain overflow-hidden"
+      aria-label="Introduction"
+    >
+      {/* Subtle grid background */}
+      <div className="absolute inset-0 grid-pattern pointer-events-none opacity-60" aria-hidden="true" />
+
+      <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 w-full">
+        {/* Top Editorial Index Bar */}
+        <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b border-border-subtle font-mono text-xs text-charcoal-light">
+          <div className="flex items-center gap-3">
+            <span className="text-muted-green font-bold">[V3.24]</span>
+            <span className="uppercase tracking-widest">
+              SYSTEM DOSSIER · {HeroInfo.name.toUpperCase()}
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-chartreuse animate-pulse" />
+            <span className="uppercase tracking-wider text-charcoal">
+              {HeroInfo.availability}
+            </span>
+          </div>
+        </div>
+
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          {/* Left Column: 7 Cols */}
+          <div className="lg:col-span-7 flex flex-col gap-6">
+            {/* Identity & Current Enterprise Position */}
+            <div className="flex flex-col gap-2">
+              <div className="inline-flex items-center gap-2 font-mono text-xs text-muted-green font-semibold uppercase tracking-wider">
+                <span className="px-2 py-0.5 rounded bg-paper border border-border-subtle">
+                  Associate Software Engineer
                 </span>
+                <span>@ BlackRock</span>
+              </div>
+
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-charcoal leading-[1.08]">
+                Architecting resilient, high-impact digital systems.
               </h1>
-            </motion.div>
+            </div>
 
-            <motion.h2
-              className="text-2xl md:text-3xl font-semibold"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              <TypingAnimation
-                texts={[
-                  "Software Engineer",
-                  "Full Stack Developer",
-                  "AI & Automation Builder",
-                  "Problem Solver"
-                ]}
-                className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-violet-400"
-              />
-            </motion.h2>
+            {/* Context & Location */}
+            <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-charcoal-light">
+              <span className="flex items-center gap-1.5">
+                <MapPinIcon className="w-4 h-4 text-muted-green" />
+                {HeroInfo.location} · {HeroInfo.workArrangement}
+              </span>
+              <span>{"//"}</span>
+              <span className="flex items-center gap-1.5">
+                <EnvelopeIcon className="w-4 h-4 text-muted-green" />
+                <a
+                  href={`mailto:${HeroInfo.email}`}
+                  className="hover:text-charcoal underline underline-offset-2 transition-colors"
+                >
+                  {HeroInfo.email}
+                </a>
+              </span>
+            </div>
 
-            <motion.p
-              className="text-lg text-gray-400 max-w-xl leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              {HeroInfo.bio}
-            </motion.p>
+            {/* Biography */}
+            <p className="text-base sm:text-lg text-charcoal-mid leading-relaxed max-w-xl font-normal border-l-2 border-chartreuse pl-4">
+              {HeroInfo.bio} Focused on enterprise content management (AEM, TeamSite), React ecosystems,
+              scalable micro-architectures, and high-performance workflow automation.
+            </p>
 
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-            >
-              {/* Primary CTA with Torch Effect */}
+            {/* Actions */}
+            <div className="flex flex-wrap items-center gap-3 pt-2">
               <Link
                 href="#project"
-                className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-violet-600 rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/25"
+                onClick={() => playTactileClick("snap")}
+                className="group inline-flex items-center gap-2 bg-chartreuse text-charcoal px-5 py-3 rounded-xl font-mono text-xs uppercase tracking-wider font-bold shadow-sm hover:bg-chartreuse-dark hover:scale-[1.02] active:scale-[0.98] transition-all"
               >
-                <span className="relative z-10 text-white font-semibold flex items-center gap-2">
-                  View My Work
-                  <motion.span
-                    className="text-lg"
-                    animate={{ x: [0, 4, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  >
-                    →
-                  </motion.span>
-                </span>
-                
-                {/* Torch Hover Effect */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-blue-400 via-white to-violet-400 opacity-0 group-hover:opacity-20"
-                  initial={false}
-                  whileHover={{
-                    background: [
-                      "linear-gradient(45deg, rgba(59, 130, 246, 0.3) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(139, 92, 246, 0.3) 100%)",
-                      "linear-gradient(45deg, rgba(139, 92, 246, 0.3) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(59, 130, 246, 0.3) 100%)"
-                    ],
-                    transition: { duration: 0.6, repeat: Infinity, repeatType: "reverse" }
-                  }}
-                />
-                
-                {/* Shimmer Effect */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full"
-                  transition={{ duration: 0.6 }}
-                />
+                <span>Selected Work</span>
+                <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
 
-              {/* Secondary CTA */}
-              <Link
-                href="#contact"
-                className="group relative px-8 py-4 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-white/20 transition-all duration-300 hover:bg-white/10"
+              <button
+                type="button"
+                onClick={() => {
+                  if (typeof window !== "undefined") {
+                    window.dispatchEvent(new CustomEvent("open-aman-ai"));
+                  }
+                }}
+                className="group inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-charcoal text-chartreuse font-mono text-xs uppercase tracking-wider font-bold hover:bg-black shadow-sm transition-all"
               >
-                <span className="relative z-10 text-white font-semibold flex items-center gap-2">
-                  Let&apos;s Talk
-                  <motion.span
-                    className="w-2 h-2 bg-blue-400 rounded-full"
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  />
-                </span>
+                <span className="w-2 h-2 rounded-full bg-chartreuse animate-pulse" />
+                <span>Ask Archon</span>
+                <span className="text-[10px] opacity-60 font-mono">⌘K</span>
+              </button>
+
+              <Link
+                href="#experience"
+                onClick={() => playTactileClick("tick")}
+                className="inline-flex items-center gap-2 px-4 py-3 rounded-xl border border-border-mid bg-paper font-mono text-xs uppercase tracking-wider text-charcoal hover:border-charcoal hover:bg-warm-white transition-all"
+              >
+                Timeline
               </Link>
-            </motion.div>
+            </div>
+
+            {/* Micro-metrics Bar */}
+            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-border-subtle font-mono">
+              <div className="flex flex-col">
+                <span className="text-2xl font-bold text-charcoal">05+</span>
+                <span className="text-[11px] text-charcoal-light uppercase tracking-wider">
+                  Years Active
+                </span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-2xl font-bold text-charcoal">35%</span>
+                <span className="text-[11px] text-charcoal-light uppercase tracking-wider">
+                  Latency Slashed
+                </span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-2xl font-bold text-charcoal">Enterprise</span>
+                <span className="text-[11px] text-charcoal-light uppercase tracking-wider">
+                  AEM & React
+                </span>
+              </div>
+            </div>
           </div>
 
-          {/* Right Column - Enhanced 3D Element */}
-          <motion.div
-            className="flex justify-center items-center"
-            initial={{ opacity: 0, scale: 0.8, rotateY: -30 }}
-            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-            transition={{ duration: 1.2, delay: 0.6 }}
-          >
-            <div className="relative">
-              {/* Floating Elements */}
-              <motion.div
-                className="absolute -top-8 -left-8 w-16 h-16 bg-blue-500/20 rounded-full blur-xl"
-                animate={{ y: [-10, 10, -10], rotate: [0, 180, 360] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              />
-              <motion.div
-                className="absolute -bottom-8 -right-8 w-20 h-20 bg-violet-500/20 rounded-full blur-xl"
-                animate={{ y: [10, -10, 10], rotate: [360, 180, 0] }}
-                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-              />
-              
-              {/* Main Image Container */}
-              <motion.div
-                className="relative w-80 h-80 lg:w-96 lg:h-96"
-                whileHover={{ scale: 1.05, rotateY: 5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                {/* Gradient Background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 via-purple-500/20 to-violet-500/30 rounded-full blur-2xl" />
-                
-                {/* Image */}
-                <motion.img
-                  className="relative z-10 w-full h-full object-cover rounded-full border-4 border-white/10 shadow-2xl"
-                  src={HeroInfo.heroImage}
-                  alt={HeroInfo.name}
-                  animate={{
-                    boxShadow: [
-                      "0 0 0 0 rgba(59, 130, 246, 0.4)",
-                      "0 0 0 20px rgba(59, 130, 246, 0)",
-                      "0 0 0 0 rgba(139, 92, 246, 0.4)",
-                      "0 0 0 20px rgba(139, 92, 246, 0)"
-                    ]
-                  }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                />
-                
-                {/* Rotating Ring */}
-                <motion.div
-                  className="absolute inset-4 rounded-full border-2 border-dashed border-white/20"
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                />
-              </motion.div>
-            </div>
-          </motion.div>
-        </div>
-      </motion.div>
-    </React.Fragment>
-  );
-};
+          {/* Right Column: 5 Cols -> Kinetic 3D Installation */}
+          <div className="lg:col-span-5 relative flex items-center justify-center">
+            {/* Architectural Frame Wrapper */}
+            <div className="relative w-full aspect-square max-w-[480px] bg-paper/60 backdrop-blur-sm border border-border-subtle rounded-2xl p-4 shadow-sm flex flex-col justify-between">
+              {/* Corner crosshairs */}
+              <span className="absolute -top-2.5 -left-2.5 font-mono text-xs text-charcoal-light/60">
+                +
+              </span>
+              <span className="absolute -top-2.5 -right-2.5 font-mono text-xs text-charcoal-light/60">
+                +
+              </span>
+              <span className="absolute -bottom-2.5 -left-2.5 font-mono text-xs text-charcoal-light/60">
+                +
+              </span>
+              <span className="absolute -bottom-2.5 -right-2.5 font-mono text-xs text-charcoal-light/60">
+                +
+              </span>
 
-export default Hero;
+              {/* 3D Canvas */}
+              <div className="w-full h-full relative">
+                <HeroSculpture />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

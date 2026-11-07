@@ -4,57 +4,113 @@
 
 @layer base {
   :root {
-    /* Modern Portfolio Light Theme Colors */
-    --background: 220 10% 3.9%;
-    --foreground: 0 0% 98%;
+    /* Portfolio V3 — Editorial & Kinetic Luxury Palette */
+    --ivory:        #F7F4EE;
+    --paper:        #F0ECE3;
+    --warm-white:   #FAF8F4;
+    --charcoal:     #1E1C1A;
+    --charcoal-mid: #3E3B37;
+    --charcoal-light: #6E6A64;
+    --muted-green:  #5B7B6B;
+    --muted-green-dark: #3F594C;
+    --muted-green-light: #8EAD9D;
+    --chartreuse:   #C8E63A;
+    --chartreuse-dark: #A5C222;
+    --border-subtle: #DDD7CB;
+    --border-mid:   #C4BDAF;
+    --border-strong:#8E887C;
 
-    --primary: 210 91.2% 59.8%;
-    --primary-foreground: 210 47.4% 11.2%;
-    --secondary: 200 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 200 32.6% 17.5%;
-    --muted-foreground: 210 20.2% 65.1%;
-    --border: 200 32.6% 17.5%;
-    --input: 200 32.6% 17.5%;
-    --ring: 210 76.3% 48%;
-    --radius: 0.75rem;
-    --highlight: 236, 93%, 77%;
-    --base-size-32: 2rem;
-  }
-
-  .dark {
-    /* Modern Portfolio Dark Theme Colors */
-    --background: 220 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --primary: 210 91.2% 59.8%;
-    --primary-foreground: 210 47.4% 11.2%;
-    --secondary: 200 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 200 32.6% 17.5%;
-    --muted-foreground: 210 20.2% 65.1%;
-    --border: 200 32.6% 17.5%;
-    --input: 200 32.6% 17.5%;
-    --ring: 210 76.3% 48%;
+    --background: var(--ivory);
+    --foreground: var(--charcoal);
+    --border: var(--border-subtle);
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    box-sizing: border-box;
   }
+
+  html {
+    scroll-behavior: smooth;
+    text-size-adjust: 100%;
+  }
+
   body {
-    @apply bg-background text-foreground antialiased;
+    background-color: var(--ivory);
+    color: var(--charcoal);
+    font-family: var(--font-outfit), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--chartreuse);
+    color: #121212;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--chartreuse-dark);
+    outline-offset: 3px;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--paper);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-mid);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--charcoal-light);
   }
 }
 
-/* Smooth scrolling */
-html {
-  height: 100%;
-  scroll-behavior: smooth;
-}
+/* Texture & Kinetic Utilities */
+@layer utilities {
+  .bg-grain {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+  }
 
-body {
-  overflow-y: scroll;
-  height: 100%;
+  .grid-pattern {
+    background-image: 
+      linear-gradient(to right, rgba(221, 215, 203, 0.4) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(221, 215, 203, 0.4) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .technical-border {
+    border: 1px solid var(--border-subtle);
+    position: relative;
+  }
+
+  .technical-border::before {
+    content: '+';
+    position: absolute;
+    top: -8px;
+    left: -6px;
+    font-size: 11px;
+    font-family: monospace;
+    color: var(--charcoal-light);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .technical-border::after {
+    content: '+';
+    position: absolute;
+    bottom: -8px;
+    right: -6px;
+    font-size: 11px;
+    font-family: monospace;
+    color: var(--charcoal-light);
+    opacity: 0.6;
+    pointer-events: none;
+  }
 }

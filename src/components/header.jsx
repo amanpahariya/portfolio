@@ -1,234 +1,227 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Bars3Icon,
+  XMarkIcon,
+  SpeakerWaveIcon,
+  SpeakerXMarkIcon,
+} from "@heroicons/react/24/outline";
 import { useHeroInfo } from "@/components/hero-info-context";
+import { toggleAudio, getAudioMuted, playTactileClick } from "@/utility/sound";
+
+const NAV_ITEMS = [
+  { name: "About", href: "#about", code: "01" },
+  { name: "Experience", href: "#experience", code: "02" },
+  { name: "Work", href: "#project", code: "03" },
+  { name: "Skills", href: "#skills", code: "04" },
+  { name: "Contact", href: "#contact", code: "05" },
+];
 
 export default function Header() {
   const HeroInfo = useHeroInfo();
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { scrollY } = useScroll();
-  const headerY = useTransform(scrollY, [0, 100], [0, -10]);
-  const headerOpacity = useTransform(scrollY, [0, 50, 100], [1, 0.9, 0.95]);
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const [currentTime, setCurrentTime] = useState("");
 
+  // Live IST Clock
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+    setIsMuted(getAudioMuted());
+
+    const updateClock = () => {
+      try {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString("en-US", {
+          timeZone: "Asia/Kolkata",
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
+        setCurrentTime(`${timeStr} IST`);
+      } catch {
+        setCurrentTime("IST");
+      }
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    updateClock();
+    const interval = setInterval(updateClock, 1000);
+    return () => clearInterval(interval);
   }, []);
 
-  const menuItems = [
-    { name: "Home", href: "/", icon: "🏠" },
-    { name: "About", href: "#about", icon: "👨‍💻" },
-    { name: "Experience", href: "#experience", icon: "💼" },
-    { name: "Projects", href: "#project", icon: "🚀" },
-    { name: "Skills", href: "#skills", icon: "⚡" },
-    { name: "Contact", href: "#contact", icon: "📧" },
-  ];
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 25);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const handleSoundToggle = () => {
+    const next = toggleAudio();
+    setIsMuted(next);
+    if (!next) {
+      playTactileClick("success");
+    }
+  };
+
+  const handleNavClick = () => {
+    setMenuOpen(false);
+    playTactileClick("tick");
+  };
 
   return (
-    <motion.header
-      className={`fixed w-full z-50 transition-all duration-500 ${
-        isScrolled
-          ? "bg-black/20 backdrop-blur-xl border-b border-white/10 py-3"
-          : "bg-transparent py-6"
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-ivory/95 backdrop-blur-md border-b border-border-subtle shadow-sm py-3"
+          : "bg-transparent py-5"
       }`}
-      style={{ y: headerY, opacity: headerOpacity }}
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+      role="banner"
     >
-      <nav className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          {/* Logo Section */}
-          <motion.div
-            className="flex items-center space-x-4"
-            whileHover={{ scale: 1.02 }}
+      <nav
+        className="max-w-6xl mx-auto px-6 lg:px-8 flex items-center justify-between"
+        aria-label="Main Navigation"
+      >
+        {/* Left: Brand Monogram & Live Status */}
+        <div className="flex items-center gap-4">
+          <Link
+            href="/"
+            onClick={() => playTactileClick("tick")}
+            className="flex items-center gap-2 group"
+            aria-label={`${HeroInfo.name} — Home`}
           >
-            <Link href="/" className="flex items-center space-x-3">
-              {/* Avatar */}
-              <motion.div
-                className="relative"
-                whileHover={{ rotate: 5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-violet-500 p-0.5">
-                  <motion.img
-                    src={HeroInfo.heroImage}
-                    alt={HeroInfo.name}
-                    className="w-full h-full rounded-full object-cover"
-                  />
-                </div>
-                <motion.div
-                  className="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-500/50 to-violet-500/50 blur-sm -z-10"
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                />
-              </motion.div>
-              
-              {/* Name and Title */}
-              <div className="hidden sm:block">
-                <motion.h1 
-                  className="text-xl font-bold bg-gradient-to-r from-white via-blue-100 to-violet-100 bg-clip-text text-transparent"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  {HeroInfo.name}
-                </motion.h1>
-                <motion.p 
-                  className="text-xs text-gray-400 font-medium"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.3 }}
-                >
-                  {HeroInfo.title}
-                </motion.p>
-              </div>
-            </Link>
-          </motion.div>
+            <span className="w-8 h-8 rounded bg-charcoal text-chartreuse font-mono font-bold flex items-center justify-center text-sm shadow-sm group-hover:scale-105 transition-transform">
+              AG
+            </span>
+            <div className="flex flex-col">
+              <span className="text-sm font-bold tracking-tight text-charcoal group-hover:text-muted-green transition-colors">
+                {HeroInfo.name}
+              </span>
+              <span className="font-mono text-[10px] text-charcoal-light tracking-wider uppercase">
+                {HeroInfo.title.split(" ")[0]} · BlackRock
+              </span>
+            </div>
+          </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
-            {menuItems.map((item, index) => (
-              <motion.div
-                key={item.name}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 * index }}
-              >
-                <Link
-                  href={item.href}
-                  className="group relative px-4 py-2 rounded-xl transition-all duration-300 hover:bg-white/5"
-                >
-                  <span className="flex items-center space-x-2 text-gray-300 group-hover:text-white transition-colors">
-                    <span className="text-sm">{item.icon}</span>
-                    <span className="font-medium">{item.name}</span>
-                  </span>
-                  
-                  {/* Hover effect */}
-                  <motion.div
-                    className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/20 to-violet-500/20 opacity-0 group-hover:opacity-100 transition-opacity"
-                    whileHover={{ scale: 1.05 }}
-                  />
-                  
-                  {/* Active indicator */}
-                  <motion.div
-                    className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-violet-500 group-hover:w-full group-hover:left-0 transition-all duration-300"
-                  />
-                </Link>
-              </motion.div>
-            ))}
-            
-            {/* CTA Button */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.6 }}
-            >
-              <Link
-                href="#contact"
-                className="ml-4 px-6 py-2 bg-gradient-to-r from-blue-600 to-violet-600 rounded-xl text-white font-semibold hover:scale-105 transition-transform relative overflow-hidden group"
-              >
-                <span className="relative z-10">Hire Me</span>
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-blue-400 to-violet-400 opacity-0 group-hover:opacity-100 transition-opacity"
-                  whileHover={{
-                    background: [
-                      "linear-gradient(45deg, #3b82f6, #8b5cf6)",
-                      "linear-gradient(45deg, #8b5cf6, #3b82f6)"
-                    ]
-                  }}
-                  transition={{ duration: 0.6, repeat: Infinity, repeatType: "reverse" }}
-                />
-              </Link>
-            </motion.div>
+          {/* Telemetry pill */}
+          <div className="hidden lg:flex items-center gap-2 px-2.5 py-1 rounded bg-paper border border-border-subtle font-mono text-[10px] text-charcoal-light">
+            <span className="w-1.5 h-1.5 rounded-full bg-chartreuse animate-pulse" />
+            <span>DELHI {currentTime}</span>
           </div>
-
-          {/* Mobile Menu Button */}
-          <motion.button 
-            className="lg:hidden p-2 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <motion.div
-              animate={{ rotate: mobileMenuOpen ? 180 : 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              {mobileMenuOpen ? (
-                <XMarkIcon className="w-6 h-6 text-white" />
-              ) : (
-                <Bars3Icon className="w-6 h-6 text-white" />
-              )}
-            </motion.div>
-          </motion.button>
         </div>
 
-        {/* Mobile Menu */}
-        <motion.div
-          className={`lg:hidden absolute top-full left-0 right-0 mt-2 mx-4 overflow-hidden ${
-            mobileMenuOpen ? "max-h-96" : "max-h-0"
-          }`}
-          initial={false}
-          animate={{
-            height: mobileMenuOpen ? "auto" : 0,
-            opacity: mobileMenuOpen ? 1 : 0
-          }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-        >
-          <div className="px-4 py-6 bg-black/90 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl">
-            <div className="space-y-2">
-              {menuItems.map((item, index) => (
-                <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ 
-                    opacity: mobileMenuOpen ? 1 : 0, 
-                    x: mobileMenuOpen ? 0 : -20 
-                  }}
-                  transition={{ delay: mobileMenuOpen ? 0.1 * index : 0 }}
-                >
-                  <Link
-                    href={item.href}
-                    className="flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300 group"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <span className="text-lg group-hover:scale-110 transition-transform">
-                      {item.icon}
-                    </span>
-                    <span className="font-medium">{item.name}</span>
-                  </Link>
-                </motion.div>
-              ))}
-              
-              {/* Mobile CTA */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ 
-                  opacity: mobileMenuOpen ? 1 : 0, 
-                  y: mobileMenuOpen ? 0 : 20 
-                }}
-                transition={{ delay: mobileMenuOpen ? 0.4 : 0 }}
-                className="pt-4 border-t border-white/10"
-              >
-                <Link
-                  href="#contact"
-                  className="flex items-center justify-center space-x-2 w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-violet-600 rounded-xl text-white font-semibold hover:scale-105 transition-transform"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <span>💼</span>
-                  <span>Hire Me</span>
-                </Link>
-              </motion.div>
-            </div>
-          </div>
-        </motion.div>
+        {/* Desktop Navigation Links */}
+        <div className="hidden md:flex items-center gap-7" role="list">
+          {NAV_ITEMS.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              role="listitem"
+              onClick={() => playTactileClick("tick")}
+              className="group flex items-baseline gap-1 text-xs font-mono uppercase tracking-wider text-charcoal-mid hover:text-charcoal transition-colors relative py-1"
+            >
+              <span className="text-[10px] text-muted-green opacity-60 group-hover:opacity-100 transition-opacity">
+                {item.code}
+              </span>
+              <span className="font-sans text-sm capitalize tracking-normal font-medium text-charcoal-mid group-hover:text-charcoal">
+                {item.name}
+              </span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-chartreuse group-hover:w-full transition-all duration-200" />
+            </Link>
+          ))}
+
+          {/* Sound Toggle */}
+          <button
+            type="button"
+            onClick={handleSoundToggle}
+            className="p-2 rounded border border-border-subtle text-charcoal-mid hover:text-charcoal hover:border-charcoal hover:bg-paper transition-all"
+            aria-label={isMuted ? "Enable UI sound" : "Mute UI sound"}
+            title={isMuted ? "Enable subtle audio cues" : "Audio cues active"}
+          >
+            {isMuted ? (
+              <SpeakerXMarkIcon className="w-4 h-4 opacity-50" />
+            ) : (
+              <SpeakerWaveIcon className="w-4 h-4 text-muted-green" />
+            )}
+          </button>
+
+          {/* Direct Contact Button */}
+          <Link
+            href="#contact"
+            onClick={() => playTactileClick("snap")}
+            className="text-xs font-mono uppercase tracking-wider font-bold bg-chartreuse text-charcoal px-4 py-2 rounded shadow-sm hover:bg-chartreuse-dark hover:scale-[1.02] active:scale-[0.98] transition-all"
+          >
+            Initiate Contact &rarr;
+          </Link>
+        </div>
+
+        {/* Mobile Buttons */}
+        <div className="flex items-center gap-2 md:hidden">
+          <button
+            type="button"
+            onClick={handleSoundToggle}
+            className="p-2 rounded border border-border-subtle text-charcoal-mid"
+            aria-label="Toggle Sound"
+          >
+            {isMuted ? (
+              <SpeakerXMarkIcon className="w-4 h-4 opacity-40" />
+            ) : (
+              <SpeakerWaveIcon className="w-4 h-4 text-muted-green" />
+            )}
+          </button>
+
+          <button
+            type="button"
+            className="p-2 rounded text-charcoal hover:bg-paper transition-colors"
+            onClick={() => {
+              setMenuOpen(!menuOpen);
+              playTactileClick("tick");
+            }}
+            aria-expanded={menuOpen}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+          >
+            {menuOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
+          </button>
+        </div>
       </nav>
-    </motion.header>
+
+      {/* Mobile Drawer */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-ivory border-b border-border-subtle shadow-lg overflow-hidden"
+          >
+            <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col gap-3 font-mono">
+              <div className="text-[11px] text-charcoal-light uppercase tracking-widest pb-2 border-b border-border-subtle flex justify-between">
+                <span>System Navigation</span>
+                <span>{currentTime}</span>
+              </div>
+              {NAV_ITEMS.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  onClick={handleNavClick}
+                  className="flex items-center justify-between py-2 text-sm text-charcoal hover:text-muted-green border-b border-border-subtle/50"
+                >
+                  <span className="font-sans font-medium">{item.name}</span>
+                  <span className="text-xs text-muted-green">{item.code} {"//"}</span>
+                </Link>
+              ))}
+              <Link
+                href="#contact"
+                onClick={handleNavClick}
+                className="mt-3 text-center py-3 bg-chartreuse text-charcoal font-bold rounded text-xs uppercase tracking-widest hover:bg-chartreuse-dark transition-colors"
+              >
+                Initiate Contact &rarr;
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
   );
 }

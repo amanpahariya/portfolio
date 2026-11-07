@@ -1,162 +1,20 @@
+/* Portfolio V3 — app.scss
+   Contains only structural helpers, no visual overrides.
+   All colours live in globals.css or Tailwind utility classes.
+*/
 
-
-.intro-hero {
-  @apply relative bg-gradient-to-b from-blue-950 from-60% to-blue-400;
-
-  .intro-hero-content {
-    @apply
-    relative
-    z-10
-    max-w-7xl
-    mx-auto
-    px-6
-    py-32
-    md:py-40
-    flex
-    flex-col
-    md:flex-row
-    items-center
-    justify-between
-    min-h-screen;
-
-    @media (max-width: 750px) {
-      // @apply py-0;
-    }
-  }
-
-  .intro-herocarousel-container {
-    @apply relative;
-    margin: 0 auto;
-    width: 100%;
-  
-    &::after {
-      content: "";
-      background: #fff;
-    }
-  
-    .intro-herocarousel-content {
-      z-index: 1;
-      padding: 1px;
-      box-sizing: border-box;
-      border: 0.0025rem solid;
-      border-bottom: 0;
-      box-sizing: border-box;
-
-      @apply
-      relative
-      pointer-events-none
-      inset-0
-      border-blue-400;
-
-      &::before {
-        @apply bg-gradient-to-b from-purple-400 from-30% via-blue-400 via-[90%] to-gray-200 to-[100%];
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 93%;
-        z-index: -2;
-        content: "";
-        filter: blur(42px);
-        border-radius: inherit;
-        opacity: 0.85;
-        mix-blend-mode: plus-lighter;
-      }
-    
-      .intro-herocarousel-video {
-        @apply w-full;
-        aspect-ratio: 357/390;
-        transition: opacity .2s cubic-bezier(0.165, 0.84, 0.44, 1),transform .2s cubic-bezier(0.165, 0.84, 0.44, 1);
-    
-        video {
-          @apply inset-0 object-cover w-full h-full;
-          object-fit: cover;
-
-          @media (min-width: 544px) {
-            @apply rounded-tl-xl rounded-tr-xl;
-          }
-
-          @media (max-width: 543px) {
-            @apply
-            rounded-tl-xl
-            border-r-0;
-          }
-        }
-    
-        @media (min-width: 768px) {
-          aspect-ratio: 1206/684;
-        }
-      }
-
-      @media (min-width: 544px) {
-        @apply
-        p-4
-        pb-0
-        rounded-tl-xl
-        rounded-tr-xl;
-      }
-
-      @media (max-width: 543px) {
-        @apply
-        p-2
-        pb-0
-        pr-0
-        rounded-tl-xl
-        border-r-0;
-      }
-    }
-
-    @media (min-width: 1280px) {
-      max-width: 1206;
-    }
-
-    @media (min-width: 768px) {
-      max-width: calc(100% - 4 * var(--base-size-32));
-    }
-
-    @media (min-width: 544px) and (max-width: 767px) {
-      max-width: 512px;
-      // margin-right: 0;
-    }
-
-    @media (max-width: 543px) {
-      max-width: calc(100% - 2 * var(--base-size-32));;
-      margin-right: 0;
-      // overflow-x: hidden;
-    }
-  }
+/* Smooth typography rendering */
+body {
+  text-rendering: optimizeLegibility;
 }
 
-.about-me, .projects {
-  @apply
-  lg:p-10
-  md:p-8
-  p-8
-  pb-0
-  lg:pb-0
-  md:pb-0
-  min-h-screen
-  flex
-  flex-col
-  items-center
-  justify-center;
+/* Section anchor offset for fixed nav */
+section[id] {
+  scroll-margin-top: 5rem;
 }
 
-@keyframes typing {
-  0% { width: 0; }
-  50% { width: 100%; }
-  75% { width: 100%; }
-  100% { width: 0; }
-}
-
+/* Typing keyframes kept for potential reuse, but not used in V3 */
 @keyframes blink-caret {
   from, to { border-color: transparent; }
-  50% { border-color: #26D0CE; }
+  50% { border-color: var(--chartreuse); }
 }
-
-.dashed-icon {
-  path {
-    --dashed-stroke: rgb(var(--light-primary));
-  };
-}
-
