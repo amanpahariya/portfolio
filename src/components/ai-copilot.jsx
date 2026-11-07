@@ -17,6 +17,7 @@ import {
   EnvelopeIcon,
 } from "@heroicons/react/24/outline";
 import { playTactileClick } from "@/utility/sound";
+import { sendGTMEvent } from "@/utility/gtm";
 
 const STARTER_PROMPTS = [
   {
@@ -418,6 +419,7 @@ export default function AiCopilot() {
     const handleOpenAmanAi = () => {
       setIsOpen(true);
       playTactileClick("snap");
+      sendGTMEvent("archon_opened", { trigger: "custom_event" });
     };
 
     window.addEventListener("keydown", handleKeyDown);
@@ -434,6 +436,10 @@ export default function AiCopilot() {
     if (!query || isStreaming) return;
 
     playTactileClick("tick");
+    sendGTMEvent("archon_message_sent", {
+      query_length: query.length,
+      has_context: messages.length > 0,
+    });
     setInput("");
 
     if (abortControllerRef.current) {
@@ -534,6 +540,7 @@ export default function AiCopilot() {
     navigator.clipboard.writeText(text);
     setCopiedId(id);
     playTactileClick("tick");
+    sendGTMEvent("archon_response_copied");
     setTimeout(() => setCopiedId(null), 2000);
   };
 
@@ -546,6 +553,7 @@ export default function AiCopilot() {
           onClick={() => {
             setIsOpen(true);
             playTactileClick("snap");
+            sendGTMEvent("archon_opened", { trigger: "floating_pill" });
           }}
           className="group flex items-center gap-3 px-4 py-2.5 bg-charcoal text-ivory rounded-full shadow-2xl hover:bg-black border border-charcoal-light/30 transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]"
           aria-label="Open Archon — Aman's Autonomous Agent"

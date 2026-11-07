@@ -11,6 +11,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useHeroInfo } from "@/components/hero-info-context";
 import { playTactileClick } from "@/utility/sound";
+import { sendGTMEvent } from "@/utility/gtm";
 
 const HeroSculpture = dynamic(() => import("@/components/hero-sculpture"), {
   ssr: false,
@@ -94,7 +95,10 @@ export default function Hero() {
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <Link
                 href="#project"
-                onClick={() => playTactileClick("snap")}
+                onClick={() => {
+                  playTactileClick("snap");
+                  sendGTMEvent("cta_selected_work_clicked");
+                }}
                 className="group inline-flex items-center gap-2 bg-chartreuse text-charcoal px-5 py-3 rounded-xl font-mono text-xs uppercase tracking-wider font-bold shadow-sm hover:bg-chartreuse-dark hover:scale-[1.02] active:scale-[0.98] transition-all"
               >
                 <span>Selected Work</span>
@@ -106,6 +110,7 @@ export default function Hero() {
                 onClick={() => {
                   if (typeof window !== "undefined") {
                     window.dispatchEvent(new CustomEvent("open-aman-ai"));
+                    sendGTMEvent("archon_opened", { trigger: "hero_button" });
                   }
                 }}
                 className="group inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-charcoal text-chartreuse font-mono text-xs uppercase tracking-wider font-bold hover:bg-black shadow-sm transition-all"

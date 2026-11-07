@@ -1,3 +1,4 @@
+import Script from "next/script";
 import { Outfit } from "next/font/google";
 import { HeroInfoProvider } from "@/components/hero-info-context";
 import HeroInfo from "@/utility/hero.json";
@@ -90,12 +91,35 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        {/* Google Tag Manager */}
+        <Script
+          id="gtm-script"
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtm.js?id=GTM-N7HZLG4H"
+        />
+        <Script id="gtm-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+          `}
+        </Script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </head>
       <body className={`${outfit.variable} font-sans antialiased`}>
+        {/* Google Tag Manager (noscript fallback) */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-N7HZLG4H"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
+
         <HeroInfoProvider value={HeroInfo}>
           {/* Skip-to-content link for keyboard users */}
           <a
